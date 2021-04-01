@@ -26,4 +26,12 @@ public class Guess {
     public boolean isAccusation(){
         return this.isAccusation;
     }
+
+    public String toString(){
+        String crimeDescription = this.suspect.getValue() + " in " + this.location.getValue() + " with the " + this.weapon.getValue() + ".";
+        String objStr = isAccusation ? 
+                        "Accusation: " + crimeDescription
+                        : "Suggestion: " + crimeDescription;
+        return objStr;
+    }
 }
