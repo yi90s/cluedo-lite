@@ -41,8 +41,26 @@ public class Model{
 
         int id = 0;
         int numCardsPerPlayer = deck.size() / players.size();
+        Iterator<Card> it = this.deck.iterator();
+
         for(IPlayer player : players){
-            player.setUp(players.size(), id, ppl, places, weapons);
+            ArrayList<Card> playerInitSuspectCards = new ArrayList<>();
+            ArrayList<Card> playerInitLocationCards = new ArrayList<>();
+            ArrayList<Card> playerInitWeaponCards = new ArrayList<>();
+
+            for(int i = 0; i < numCardsPerPlayer; i++){
+                Card curCard = it.next();
+
+                if(curCard.getType() == CardType.LOCATION){
+                    playerInitLocationCards.add(curCard);
+                }else if(curCard.getType() == CardType.SUSPECT){
+                    playerInitSuspectCards.add(curCard);
+                }else if(curCard.getType() == CardType.WEAPON){
+                    playerInitWeaponCards.add(curCard);
+                }
+                it.remove();
+            }
+            player.setUp(players.size(), id, playerInitSuspectCards, playerInitLocationCards, playerInitWeaponCards);
         }
     }
 

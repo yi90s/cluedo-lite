@@ -3,7 +3,6 @@ import java.util.ArrayList;
 public class Main {
     
     public static void main(String[] args) {
-        
 
         //initialize model class
         ArrayList<Card> initDeck = genDeck(); 
@@ -13,7 +12,7 @@ public class Main {
         game.start();
     }
 
-    public static ArrayList<Card> genDeck(){
+    private static ArrayList<Card> genDeck(){
         ArrayList<Card> deck = new ArrayList<>();
 
         //initialize suspect cards
@@ -43,7 +42,7 @@ public class Main {
         return deck;
     }    
 
-    public static ArrayList<IPlayer> genPlayers(){
+    private static ArrayList<IPlayer> genPlayers(){
         ArrayList<IPlayer> players = new ArrayList<>();
         players.add(new HumanPlayer());
         players.add(new ComputerPlayer());
