@@ -20,5 +20,13 @@ public class Card {
     public String toString(){
         return "[" + type.toString() + "]" + ": " + value;
     }
+
+    public CardType getType(){
+        return this.type;
+    }
+
+    public String getValue(){
+        return this.value;
+    }
 }
 
