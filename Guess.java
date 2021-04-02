@@ -28,7 +28,7 @@ public class Guess {
     }
 
     public String toString(){
-        String crimeDescription = this.suspect.getValue() + " in " + this.location.getValue() + " with the " + this.weapon.getValue() + ".";
+        String crimeDescription = this.suspect.getValue() + " in " + this.location.getValue() + " with the " + this.weapon.getValue();
         String objStr = isAccusation ? 
                         "Accusation: " + crimeDescription
                         : "Suggestion: " + crimeDescription;

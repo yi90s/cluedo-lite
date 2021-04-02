@@ -46,8 +46,15 @@ public abstract class Player {
     }
 
     public void setCard(Card c){
-        System.out.println("You received the card " + c.toString());
         this.ownedCards.add(c);
+    }
+
+    public void receiveInfo(IPlayer ip, Card c) {
+        if(c != null && ip != null){
+            System.out.println("Player " + String.valueOf(ip.getIndex()) + " refuted your suggestion by showing you " + c.toString());
+        }else{
+            System.out.println("No one could refute your suggestion.");
+        }
     }
 
 }

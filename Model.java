@@ -54,8 +54,11 @@ public class Model{
         Collections.shuffle(allWeapons);
         Collections.shuffle(allLocations);
         this.answers.suspect = allSuspects.get(0);
+        deck.remove(this.answers.suspect);
         this.answers.weapon = allWeapons.get(0);
+        deck.remove(this.answers.weapon);
         this.answers.location = allLocations.get(0);
+        deck.remove(this.answers.location);
 
         //distribute the entire deck to players
         Collections.shuffle(deck);
@@ -66,18 +69,19 @@ public class Model{
         while(!this.gameOver){
             //ask active player for their guess
             IPlayer curPlayer = getNextActivePlayer();
-            System.out.println("Current turn: " + curPlayer.getIndex());
+            System.out.println("\nCurrent turn: " + curPlayer.getIndex());
             Guess curGuess = curPlayer.getGuess();
             System.out.println("Player " + curPlayer.getIndex() + ": " + curGuess.toString());
 
             if(curGuess.isAccusation()){ //if current guess is an accusation
                 if(isTrueAccusation(curGuess)){ 
                     this.gameOver = true;
-                    System.out.println("Player " + curPlayer.getIndex() + " won the game.");
+                    System.out.println("Player " + curPlayer.getIndex() + " won the game. And the correct guess is " + curGuess.toString());
                 }else{
                     eliminatePlayer(curPlayer);
                     System.out.println("Player " + curPlayer.getIndex() + " made a bad accusation and was removed from the game.");
                     if(players.size() - outPlayers.size() == 1){ //game over if only one player remains
+                        System.out.println("Player " + curPlayer.getIndex() + " won the game as the last survivor.");
                         this.gameOver = true;
                     }
                 }
@@ -85,27 +89,23 @@ public class Model{
 
                 //ask rest of the players for information
                 Card respond = null;
-                for(int respondPlayerId = (currPlayerId+1 % this.players.size()); 
-                    respondPlayerId != currPlayerId && respond == null; 
-                    respondPlayerId = (respondPlayerId+1 % this.players.size())){
+                IPlayer respondPlayer = null;
+                for(int askedPlayerId = ((currPlayerId+1) % this.players.size()); 
+                    askedPlayerId != currPlayerId && respond == null; 
+                    askedPlayerId = ((askedPlayerId+1) % this.players.size())){
 
-                        IPlayer respondPlayer = this.players.get(respondPlayerId);
-                        respond = respondPlayer.canAnswer(curGuess, curPlayer);
-                        System.out.println("Asking player " + respondPlayer.getIndex() + ".");
-                        curPlayer.receiveInfo(respond == null ? null : respondPlayer, respond);
+                        IPlayer askedPlayer = this.players.get(askedPlayerId);
+                        respond = askedPlayer.canAnswer(curGuess, curPlayer);
+                        
+                        System.out.println("Asking player " + askedPlayer.getIndex() + ".");
                         if(respond != null){
-                            System.out.println("Player " + respondPlayer.getIndex() + " answered.");
+                            respondPlayer = askedPlayer;
                         }
-
                 }
 
-                if(respond == null){
-                    System.out.println("No one could answer.");
-                }
+                curPlayer.receiveInfo(respondPlayer, respond);
             }
         }
-
-        //TODO: inform all players about the outcome of the game (player and guess if someone guessed correctly, player only if all other players are eliminated)
 
     }
 

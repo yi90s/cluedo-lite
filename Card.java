@@ -18,7 +18,7 @@ public class Card {
     }
 
     public String toString(){
-        return "[" + type.toString() + "]" + ": " + value;
+        return value;
     }
 
     public CardType getType(){
