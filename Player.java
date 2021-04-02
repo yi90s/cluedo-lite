@@ -7,6 +7,7 @@ public abstract class Player {
     private ArrayList<Card> allLocations;
     private ArrayList<Card> allWeapons;
     private ArrayList<Card> ownedCards;
+    private ArrayList<Card> informedCards;
     
     public void setUp( int numPlayers, int index, ArrayList<Card> ppl, ArrayList<Card> places, ArrayList<Card> weapons ){
         this.numPlayers = numPlayers;
@@ -47,6 +48,14 @@ public abstract class Player {
 
     public void setCard(Card c){
         this.ownedCards.add(c);
+    }
+
+    public ArrayList<Card> getInformedCards(){
+        return this.informedCards;
+    }
+
+    public void addInformedCards(Card c){
+        this.informedCards.add(c);
     }
 
     public void receiveInfo(IPlayer ip, Card c) {
