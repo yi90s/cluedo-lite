@@ -11,6 +11,7 @@ class ComputerPlayerTest{
     private ArrayList<Card> allSuspects = null;
     private ArrayList<Card> allWeapons = null;
     private ArrayList<Card> allLocations = null;
+    
 
 
     @BeforeEach
@@ -22,23 +23,15 @@ class ComputerPlayerTest{
         allSuspects.add(new Card(CardType.SUSPECT, "Miss Scarlett"));
         allSuspects.add(new Card(CardType.SUSPECT, "Rev Green"));
         allSuspects.add(new Card(CardType.SUSPECT, "Colonel Mustard"));
-        allSuspects.add(new Card(CardType.SUSPECT, "Professor Plum"));
-        allSuspects.add(new Card(CardType.SUSPECT, "Mrs.Peacock"));
-        allSuspects.add(new Card(CardType.SUSPECT, "Mrs.White"));
 
         allWeapons.add(new Card(CardType.WEAPON, "Candlestick"));
         allWeapons.add(new Card(CardType.WEAPON, "Dagger"));
         allWeapons.add(new Card(CardType.WEAPON, "Lead Pipe"));
-        allWeapons.add(new Card(CardType.WEAPON, "Revolver"));
-        allWeapons.add(new Card(CardType.WEAPON, "Rope"));
-        allWeapons.add(new Card(CardType.WEAPON, "Wrench"));
 
         allLocations.add(new Card(CardType.LOCATION, "Kitchen"));
         allLocations.add(new Card(CardType.LOCATION, "Ballroom"));
         allLocations.add(new Card(CardType.LOCATION, "Conservatory"));
-        allLocations.add(new Card(CardType.LOCATION, "Billiard Room"));
-        allLocations.add(new Card(CardType.LOCATION, "Library"));
-        allLocations.add(new Card(CardType.LOCATION, "Study"));
+
 
         guess = new Guess(allSuspects.get(0), allWeapons.get(0), allLocations.get(0), false);
     }
@@ -77,6 +70,65 @@ class ComputerPlayerTest{
 
     @Test
     void test4(){
-        
+        ComputerPlayer cp = new ComputerPlayer();
+        cp.setUp(6, 0, this.allSuspects, this.allLocations, this.allWeapons);
+        Card sus = this.allSuspects.get(0), loc = this.allLocations.get(0), weapon = this.allWeapons.get(0); 
+        cp.setCard(sus);
+        cp.setCard(loc);
+        cp.setCard(weapon);
+
+        Guess g = cp.getGuess();
+        assert(g.getSuspect() != sus && g.getLocation() != loc && g.getWeapon() != weapon);
+    }
+
+    @Test
+    void test5(){
+        ComputerPlayer cp = new ComputerPlayer();
+        cp.setUp(6, 0, this.allSuspects, this.allLocations, this.allWeapons);
+        cp.setCard(this.allSuspects.get(1));
+        cp.setCard(this.allSuspects.get(2));
+        cp.setCard(this.allWeapons.get(1));
+        cp.setCard(this.allWeapons.get(2));
+        cp.setCard(this.allLocations.get(1));
+        cp.setCard(this.allLocations.get(2));
+
+        Guess g = cp.getGuess();
+        assert(g.isAccusation());
+        assert(g.getSuspect() == this.allSuspects.get(0));
+        assert(g.getWeapon() == this.allWeapons.get(0));
+        assert(g.getLocation() == this.allLocations.get(0));
+    }
+
+    @Test
+    void test6(){
+        ComputerPlayer cp = new ComputerPlayer();
+        cp.setUp(6, 0, this.allSuspects, this.allLocations, this.allWeapons);
+        cp.setCard(this.allSuspects.get(1));
+        cp.setCard(this.allWeapons.get(1));
+        cp.setCard(this.allWeapons.get(2));
+        cp.setCard(this.allLocations.get(1));
+        cp.setCard(this.allLocations.get(2));
+
+        Guess g = cp.getGuess();
+        assert(!g.isAccusation());
+
+        cp.receiveInfo(null, this.allSuspects.get(2));
+        g = cp.getGuess();
+        assert(g.isAccusation());
+        assert(g.getSuspect() == this.allSuspects.get(0));
+        assert(g.getWeapon() == this.allWeapons.get(0));
+        assert(g.getLocation() == this.allLocations.get(0));
+    }
+
+    @Test
+    void test7(){
+        HumanPlayer hp = new HumanPlayer();
+        hp.setUp(6, 0, this.allSuspects, this.allLocations, this.allWeapons);
+        hp.setCard(this.allSuspects.get(0));
+        hp.setCard(this.allWeapons.get(1));
+        hp.setCard(this.allLocations.get(2));
+
+        Card respondCard = hp.canAnswer(this.guess, hp);
+        assert(respondCard == this.allSuspects.get(0));
     }
 }

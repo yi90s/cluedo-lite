@@ -15,7 +15,8 @@ public abstract class Player {
         allSuspects = ppl;
         allLocations = places;
         allWeapons = weapons;
-        ownedCards = new ArrayList<Card>();
+        ownedCards = new ArrayList<>();
+        informedCards = new ArrayList<>();
     }
 
     public int getPlayerId() {
@@ -54,7 +55,7 @@ public abstract class Player {
         return this.informedCards;
     }
 
-    public void addInformedCards(Card c){
+    protected void addInformedCards(Card c){
         this.informedCards.add(c);
     }
 
