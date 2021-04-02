@@ -1,9 +1,9 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
-    
+    private static Scanner sc = new Scanner(System.in);
     public static void main(String[] args) {
-
         //initialize model class
         ArrayList<Card> initDeck = genDeck(); 
         ArrayList<IPlayer> players = genPlayers();
@@ -45,9 +45,12 @@ public class Main {
     private static ArrayList<IPlayer> genPlayers(){
         ArrayList<IPlayer> players = new ArrayList<>();
         players.add(new HumanPlayer());
-        players.add(new ComputerPlayer());
-        players.add(new ComputerPlayer());
-        players.add(new ComputerPlayer());
+        System.out.println("Enter the number of computer players:");
+        sc = new Scanner(System.in);
+        int numComputerPlayers = Integer.parseInt(sc.nextLine());
+        for(int i=0;i<numComputerPlayers;i++){
+            players.add(new ComputerPlayer());
+        }
 
         return players;
     }
